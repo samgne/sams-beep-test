@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Observable, Subscription } from 'rxjs/Rx';
+import {CountDown} from "../../node_modules/angular2-simple-countdown/countdown";
+
 
 const LEVELS: Level[] = [
  { id: 1, time: 9000, shuttles: 7 },
@@ -33,11 +34,10 @@ const LEVELS: Level[] = [
 
 export class AppComponent {
   
-  private timer;
-  // Subscription object
-  private sub: Subscription;
+  text: any = { Seconds: "Seconds", MilliSeconds:"MilliSeconds" };
   private currentLevel = 0; 
   title = 'Sams Beep Test!';
+  todayDate = new Date();
 
   levels = LEVELS;
 
@@ -50,24 +50,9 @@ export class AppComponent {
   levelRun(level) {
    var levelTime = this.levels[this.currentLevel].time;
    var levelShuttles = this.levels[this.currentLevel].shuttles;
-   //console.log(levelObject);
-   var i = 0;
-   while ( i < levelShuttles) {
-      this.timer = Observable.timer(0,levelTime);
-      // subscribing to a observable returns a subscription object
-      console.log(this.sub);
-      this.sub = this.timer.subscribe(t => this.completeShuttle());
-      i++;
-   }
-   
+   this.todayDate = new Date();
+   this.todayDate.setMilliseconds(this.todayDate.getMilliseconds() + levelTime);
   }
-  
-  startShuttle(levelTime){
-
-  }
-  completeLevel(){
-        this.sub.unsubscribe();
-    }
 }
 
 export class Level {
