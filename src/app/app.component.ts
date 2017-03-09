@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import {CountDown} from "../../node_modules/angular2-simple-countdown/countdown";
 
 
 const LEVELS: Level[] = [
@@ -50,8 +49,6 @@ export class AppComponent {
   levelRun(level) {
    var levelTime = this.levels[this.currentLevel].time;
    var levelShuttles = this.levels[this.currentLevel].shuttles;
-   this.todayDate = new Date();
-   this.todayDate.setMilliseconds(this.todayDate.getMilliseconds() + levelTime);
   }
 }
 
