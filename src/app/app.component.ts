@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Observable,Subscription } from 'rxjs/Rx';
 
 
 const LEVELS: Level[] = [
@@ -36,7 +37,9 @@ export class AppComponent {
   text: any = { Seconds: "Seconds", MilliSeconds:"MilliSeconds" };
   private currentLevel = 0; 
   title = 'Sams Beep Test!';
-  todayDate = new Date();
+  private ticks = 0;
+  private timer;
+  private sub: Subscription;
 
   levels = LEVELS;
 
@@ -44,11 +47,20 @@ export class AppComponent {
     console.log("start pressed");
     this.currentLevel++;
     this.levelRun(this.currentLevel);
+
+    
   }
 
+  shuttleTicker(t) {
+    console.log("DONE" + " " + t);
+    this.sub.unsubscribe();
+  }
   levelRun(level) {
    var levelTime = this.levels[this.currentLevel].time;
    var levelShuttles = this.levels[this.currentLevel].shuttles;
+   this.timer = Observable.timer(5000,0);
+   // subscribing to a observable returns a subscription object
+   this.sub = this.timer.subscribe(t => this.shuttleTicker(t));
   }
 }
 
