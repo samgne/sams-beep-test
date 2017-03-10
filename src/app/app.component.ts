@@ -34,10 +34,10 @@ const LEVELS: Level[] = [
 
 export class AppComponent {
   
-  text: any = { Seconds: "Seconds", MilliSeconds:"MilliSeconds" };
-  private currentLevel = 0; 
+  private currentLevel = 1; 
   title = 'Sams Beep Test!';
   private ticks = 0;
+  private countdown = 0;
   private timer;
   private sub: Subscription;
 
@@ -45,23 +45,34 @@ export class AppComponent {
 
   beepStart() {
     console.log("start pressed");
-    this.currentLevel++;
-    this.levelRun(this.currentLevel);
-
-    
+    this.levelRun();
   }
 
   shuttleTicker(t) {
     console.log("DONE" + " " + t);
     this.sub.unsubscribe();
+    this.ticks++;
   }
-  levelRun(level) {
-   var levelTime = this.levels[this.currentLevel].time;
-   var levelShuttles = this.levels[this.currentLevel].shuttles;
-   this.timer = Observable.timer(5000,0);
-   // subscribing to a observable returns a subscription object
-   this.sub = this.timer.subscribe(t => this.shuttleTicker(t));
+
+  levelRun() {
+   
+   while (this.currentLevel < 22) {
+    console.log(this.currentLevel);
+    var levelTime = this.levels[this.currentLevel].time;
+    var levelShuttles = this.levels[this.currentLevel].shuttles;
+    this.countdown = levelShuttles;
+    
+    while (this.ticks < levelShuttles) {
+     this.timer = Observable.timer(levelTime,0);
+     // subscribing to a observable returns a subscription object
+     this.sub = this.timer.subscribe(t => this.shuttleTicker(t));
+     console.log(this.ticks);
+    }
+   
+   this.ticks = 0;
+   this.currentLevel++;
   }
+}
 }
 
 export class Level {
