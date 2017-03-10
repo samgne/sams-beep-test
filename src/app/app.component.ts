@@ -39,7 +39,10 @@ export class AppComponent {
   private ticks = 0;
   private countdown = 0;
   private timer;
+  private timer2;
   private sub: Subscription;
+  private sub2: Subscription;
+  private countdowntimer = 0;
 
   levels = LEVELS;
 
@@ -52,27 +55,44 @@ export class AppComponent {
     console.log("DONE" + " " + t);
     this.sub.unsubscribe();
     this.ticks++;
+    this.countdown--;
+    if (this.countdown == 0){
+      this.currentLevel++;
+      this.ticks = 0;
+      this.levelRun();
+    } else {
+      this.shuttleRun(this.levels[this.currentLevel].time);
+      this.sub2.unsubscribe();
+    }
   }
 
   levelRun() {
    
-   while (this.currentLevel < 22) {
-    console.log(this.currentLevel);
-    var levelTime = this.levels[this.currentLevel].time;
-    var levelShuttles = this.levels[this.currentLevel].shuttles;
-    this.countdown = levelShuttles;
-    
-    while (this.ticks < levelShuttles) {
+   if (this.currentLevel < 22) {
+     console.log(this.currentLevel);
+     var levelTime = this.levels[this.currentLevel].time;
+     var levelShuttles = this.levels[this.currentLevel].shuttles;
+     this.countdown = levelShuttles;
+     this.shuttleRun(levelTime);
+     
+   }
+ }
+
+ shuttleRun(levelTime){
      this.timer = Observable.timer(levelTime,0);
      // subscribing to a observable returns a subscription object
      this.sub = this.timer.subscribe(t => this.shuttleTicker(t));
+     this.countdowntimer = levelTime / 1000 + 1;
+     console.log(this.countdowntimer);
+     this.timer2 = Observable.timer(0,1000);
+     // subscribing to a observable returns a subscription object
+     this.sub2 = this.timer2.subscribe(t => this.countdowntimerTicker(t));
      console.log(this.ticks);
-    }
-   
-   this.ticks = 0;
-   this.currentLevel++;
-  }
-}
+ }
+
+ countdowntimerTicker(t){
+   this.countdowntimer--;
+ }
 }
 
 export class Level {
