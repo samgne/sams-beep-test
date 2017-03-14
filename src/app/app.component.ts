@@ -43,17 +43,22 @@ export class AppComponent {
   private sub: Subscription;
   private sub2: Subscription;
   private countdowntimer = 0;
+  private audio: HTMLAudioElement;
+  
+  
 
   levels = LEVELS;
 
   beepStart() {
     console.log("start pressed");
     this.levelRun();
+    this.playBeep();
   }
 
   shuttleTicker(t) {
-    console.log("DONE" + " " + t);
+    //console.log("DONE" + " " + t);
     this.sub.unsubscribe();
+    this.playBeep();
     this.ticks++;
     this.countdown--;
     if (this.countdown == 0){
@@ -69,12 +74,11 @@ export class AppComponent {
   levelRun() {
    
    if (this.currentLevel < 22) {
-     console.log(this.currentLevel);
+     //console.log(this.currentLevel);
      var levelTime = this.levels[this.currentLevel].time;
      var levelShuttles = this.levels[this.currentLevel].shuttles;
      this.countdown = levelShuttles;
-     this.shuttleRun(levelTime);
-     
+     this.shuttleRun(levelTime);     
    }
  }
 
@@ -83,15 +87,23 @@ export class AppComponent {
      // subscribing to a observable returns a subscription object
      this.sub = this.timer.subscribe(t => this.shuttleTicker(t));
      this.countdowntimer = levelTime / 1000 + 1;
-     console.log(this.countdowntimer);
+     //console.log(this.countdowntimer);
      this.timer2 = Observable.timer(0,1000);
      // subscribing to a observable returns a subscription object
      this.sub2 = this.timer2.subscribe(t => this.countdowntimerTicker(t));
-     console.log(this.ticks);
+     //console.log(this.ticks);
  }
 
  countdowntimerTicker(t){
    this.countdowntimer--;
+ }
+
+ playBeep() {
+   console.log(this.audio);
+   this.audio = new Audio();
+   this.audio.src = "http://soundbible.com/mp3/Censored_Beep-Mastercard-569981218.mp3";
+   //audio.load();
+   this.audio.play();
  }
 }
 
