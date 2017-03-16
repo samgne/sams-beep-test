@@ -1,19 +1,16 @@
-<h1>
+<h1 class="text-center col-md-12">
   {{title}}
 </h1>
 
-<h2>
+<h3 class="text-center col-md-12">
   Level {{ currentLevel }}
-</h2>
+</h3>
+<p class="text-center col-md-12">{{ countdowntimer }} </p>
+<p class="text-center col-md-12">Shuttles remaining: {{ countdown }} </p>
 
-<div>
-  <label>test</label>
+<div class="text-center">
+  <button (click)="beepStart()" class="btn btn-primary">START</button>
 </div>
-
-<button (click)="beepStart()" ng-class="startButton">START</button>
-
-<p> {{ countdown }} </p>
-<p>Timer: {{ countdowntimer }} </p>
 
 <audio id="audio">
     <source src="http://soundbible.com/mp3/Censored_Beep-Mastercard-569981218.mp3" type="audio/mp3" />
