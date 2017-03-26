@@ -34,16 +34,16 @@ const LEVELS: Level[] = [
 
 export class AppComponent {
   
-  private currentLevel = 1; 
+  public currentLevel = 1; 
   title = 'Sams Beep Test!';
-  private ticks = 0;
-  private countdown = 0;
-  private timer;
-  private timer2;
-  private sub: Subscription;
-  private sub2: Subscription;
-  private countdowntimer = 0;
-  private audio: HTMLAudioElement;
+  public ticks = 0;
+  public countdown = 0;
+  public timer;
+  public timer2;
+  public sub: Subscription;
+  public sub2: Subscription;
+  public countdowntimer = 0;
+  public audio: HTMLAudioElement;
   
   
 
